@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="description"
+        content="Shipment App."
+    />
+    <link rel="shortcut icon" href="/logo.ico" type="image/x-icon">
+    <link rel="icon" href="/logo.ico" type="image/x-icon">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/5b8fa639bb.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @theme {
+            --font-quicksand: "Quicksand", "sans-serif";
+        }
+
+        a, button {
+            outline: none;
+            cursor: pointer;
+        }
+
+		th, td { white-space: nowrap; background-color: #ffffff; }
+    </style>
+    <title>Customer Detail | Shipment App</title>
+</head>
+<body>
+    <div class="w-full min-h-screen font-quicksand bg-linear-to-br from-[#A0C878] to-[#DDEB9D]">
+        <header class="w-full p-4 flex items-center justify-between border-b border-white">
+            <div class="w-full">
+                <h1 class="text-[3rem] font-bold drop-shadow-md text-white">
+                    Shipments
+                    <i class="fa-solid fa-truck-fast text-orange-500"></i>
+                </h1>
+            </div>
+
+            <nav class="w-full">
+                <ul class="w-full flex items-center justify-center gap-8">
+                    <li><a class="px-4 py-2 text-white font-semibold border-y border-orange-500 
+                        hover:bg-orange-500 hover:rounded-sm focus:bg-orange-500 focus:rounded-sm active:bg-orange-700 transition-all"
+                        href="/shipments">
+                        Shipment
+                    </a></li>
+                    <li><a class="px-4 py-2 text-white font-semibold border-y border-orange-500 
+                        hover:bg-orange-500 hover:rounded-sm focus:bg-orange-500 focus:rounded-sm active:bg-orange-700 transition-all"
+                        href="/products">
+                        Products
+                    </a></li>
+                    <li><a class="px-4 py-2 text-white font-semibold border-y border-orange-500 
+                        hover:bg-orange-500 hover:rounded-sm focus:bg-orange-500 focus:rounded-sm active:bg-orange-700 transition-all"
+                        href="/merchants">
+                        Merchant
+                    </a></li>
+                    <li><a class="px-4 py-2 text-white font-semibold border-y border-orange-500 rounded-sm bg-orange-500 
+                        hover:bg-orange-500 hover:rounded-sm focus:bg-orange-500 focus:rounded-sm active:bg-orange-700 transition-all"
+                        href="/customers">
+                        Customers
+                    </a></li>
+                </ul>
+            </nav>
+
+            <div class="w-full"></div>
+        </header>
+
+        <section class="w-full p-8">
+            <div class="w-full max-w-[1200px] mx-auto rounded-lg bg-slate-100/20 shadow-lg">
+                <div class="w-full py-2 px-4 flex items-center justify-between">
+                    <a class="block w-fit px-4 py-2 border border-orange-500 text-orange-500 font-medium rounded-md 
+                        hover:bg-orange-500 hover:text-white focus:bg-orange-500 focus:text-white active:bg-orange-700 transition-colors"
+                        href="/customers">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Back to Customers
+                    </a>
+
+                    <div class="w-fit flex items-center justify-center gap-2 text-white">
+                        <a class="size-[41.6px] flex items-center justify-center rounded-md border border-yellow-500 text-yellow-500
+                            hover:bg-yellow-500 hover:text-white focus:bg-yellow-500 focus:text-white active:bg-yellow-700 transition-colors"
+                            th:href="@{/customers/update/{id}(id=${customer.id})}" data-tippy-content="Update Customer">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </a>
+                        <form id="deleteForm" method="POST" th:action="@{'/customers/delete/' + ${customer.id}}">
+                            <button class="delete-btn size-[41.6px] flex items-center justify-center rounded-md border border-red-500 text-red-500
+                            hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white active:bg-red-700 transition-colors"
+                                data-tippy-content="Delete Customer" type="button">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="w-full px-4">
+                    <div class="w-full p-4 flex items-start justify-between gap-4 bg-white rounded-lg">
+                        <div class="sticky top-4 flex-1 w-full max-w-[300px] flex flex-col items-end justify-normal rounded-md bg-slate-100 p-4">
+                            <div class="w-full">
+                                <div class="w-full mb-4">
+                                    <p class="w-full font-semibold text-slate-500">Name</p>
+                                    <p th:text="${customer.name}" class="w-full text-lg font-semibold"></p>
+                                </div>
+                                <div class="w-full mb-4">
+                                    <p class="w-full font-semibold text-slate-500">Phone</p>
+                                    <p th:text="${customer.phone}" class="w-full text-lg font-semibold"></p>
+                                </div>
+                                <div class="w-full mb-4">
+                                    <p class="w-full font-semibold text-slate-500">Address</p>
+                                    <p th:text="${customer.address}" class="w-full text-lg font-semibold"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SHIPMENTS -->
+                        <div class="w-full max-w-[800px]">
+                            <table class="w-full max-w-full stripe row-border order-column text-sm"
+                                id="shipmentTable">
+                                <thead>
+                                    <tr>
+                                        <th>Shipment</th>
+                                        <th>Product</th>
+                                        <th>Merchant</th>
+                                        <th>Qty</th>
+                                        <th>Total Price</th>
+                                        <th>Status</th>
+                                        <th>Estimate</th>
+                                        <th class="bg-white">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="shipment: ${shipments}" class="border-b border-slate-300">
+                                        <td th:text="${shipment.createdAt.toString().substring(0,10)}"></td>
+                                        <td th:text="${shipment.product.name}"></td>
+                                        <td th:text="${shipment.product.merchant.name}"></td>
+                                        <td th:text="${shipment.productQuantity}"></td>
+                                        <td th:text="@{'Rp ' + ${#numbers.formatDecimal(shipment.totalPrice, 0, 'POINT', 0, 'COMMA')}}" class="text-end"></td>
+                                        <td class="text-center">
+                                            <span th:text="${shipment.status}" 
+                                                th:classappend="${shipment.status == 'Shipped'} ? 'text-blue-500' : (${shipment.status == 'Delivered'} ? 'text-green-500' : 'text-red-500')"
+                                                class="px-2 py-1 rounded-full text-xs font-medium">
+                                            </span>
+                                        </td>
+                                        <td th:text="${shipment.arrivedAt.toString().substring(0,10)}"></td>
+                                        <td class="w-fit flex items-center justify-center gap-2 text-white bg-white">
+                                            <a class="action-btn show-btn size-10 flex items-center justify-center rounded-md border border-blue-500 text-blue-500
+                                                hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white active:bg-blue-700 transition-colors"
+                                                th:href="@{/shipments/detail/{id}(id=${shipment.id})}" data-tippy-content="Show Shipment">
+                                                <i class="fa-regular fa-file-lines"></i>
+                                            </a>
+                                            <a class="action-btn update-btn size-10 flex items-center justify-center rounded-md border border-yellow-500 text-yellow-500
+                                                hover:bg-yellow-500 hover:text-white focus:bg-yellow-500 focus:text-white active:bg-yellow-700 transition-colors"
+                                                th:href="@{/shipments/update/{id}(id=${shipment.id})}" data-tippy-content="Update Shipment">
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                            </a>
+                                            <form id="deleteForm" method="POST" th:action="@{'/shipments/delete/' + ${shipment.id}}">
+                                                <button class="action-btn delete-btn size-10 flex items-center justify-center rounded-md border border-red-500 text-red-500
+                                                hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white active:bg-red-700 transition-colors"
+                                                    data-tippy-content="Delete Shipment" type="button">
+                                                    <i class="fa-regular fa-trash-can"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full h-4"></div>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedcolumns/5.0.4/js/dataTables.fixedColumns.js"></script>
+    <script src="https://cdn.datatables.net/fixedcolumns/5.0.4/js/fixedColumns.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            let table = new DataTable('#shipmentTable', {
+				fixedColumns: {
+                        start: 0,
+						end: 1
+                    },
+                    paging: false,
+                    scrollCollapse: true,
+                    scrollX: true
+			});
+
+			$(".delete-btn").on("click", function (e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "This action can't be reverted!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(this).closest("form").submit();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

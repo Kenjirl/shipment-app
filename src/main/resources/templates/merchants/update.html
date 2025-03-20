@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="description"
+        content="Shipment App."
+    />
+    <link rel="shortcut icon" href="/logo.ico" type="image/x-icon">
+    <link rel="icon" href="/logo.ico" type="image/x-icon">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/5b8fa639bb.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @theme {
+            --font-quicksand: "Quicksand", "sans-serif";
+        }
+
+        a, button {
+            outline: none;
+            cursor: pointer;
+        }
+
+		th, td { white-space: nowrap; background-color: #ffffff; }
+    </style>
+    <title>Update Customer Information | Shipment App</title>
+</head>
+<body>
+    <div class="w-full min-h-screen font-quicksand bg-linear-to-br from-[#A0C878] to-[#DDEB9D]">
+        <header class="w-full p-4 flex items-center justify-between border-b border-white">
+            <div class="w-full">
+                <h1 class="text-[3rem] font-bold drop-shadow-md text-white">
+                    Shipments
+                    <i class="fa-solid fa-truck-fast text-orange-500"></i>
+                </h1>
+            </div>
+
+            <nav class="w-full">
+                <ul class="w-full flex items-center justify-center gap-8">
+                    <li><a class="px-4 py-2 text-white font-semibold border-y border-orange-500 
+                        hover:bg-orange-500 hover:rounded-sm focus:bg-orange-500 focus:rounded-sm active:bg-orange-700 transition-all"
+                        href="/shipments">
+                        Shipment
+                    </a></li>
+                    <li><a class="px-4 py-2 text-white font-semibold border-y border-orange-500 
+                        hover:bg-orange-500 hover:rounded-sm focus:bg-orange-500 focus:rounded-sm active:bg-orange-700 transition-all"
+                        href="/products">
+                        Products
+                    </a></li>
+                    <li><a class="px-4 py-2 text-white font-semibold border-y border-orange-500 
+                        hover:bg-orange-500 hover:rounded-sm focus:bg-orange-500 focus:rounded-sm active:bg-orange-700 transition-all"
+                        href="/merchants">
+                        Merchant
+                    </a></li>
+                    <li><a class="px-4 py-2 text-white font-semibold border-y border-orange-500 rounded-sm bg-orange-500 
+                        hover:bg-orange-500 hover:rounded-sm focus:bg-orange-500 focus:rounded-sm active:bg-orange-700 transition-all"
+                        href="/customers">
+                        Customers
+                    </a></li>
+                </ul>
+            </nav>
+
+            <div class="w-full"></div>
+        </header>
+
+        <section class="w-full p-8">
+            <div class="w-full max-w-[400px] mx-auto rounded-lg bg-slate-100/20 shadow-lg">
+                <div class="w-full py-2 px-4">
+                    <a class="block w-fit px-4 py-2 border border-orange-500 text-orange-500 font-medium rounded-md 
+                        hover:bg-orange-500 hover:text-white focus:bg-orange-500 focus:text-white active:bg-orange-700 transition-colors"
+                        href="/merchants">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Back to Merchants
+                    </a>
+                </div>
+
+                <div class="w-full px-4">
+                    <div class="w-full bg-white rounded-lg">
+                        <form th:object="${merchantDTO}" th:action="@{'/merchants/update/' + ${merchant.id}}" method="post">
+                            <div class="w-full p-4">
+                                <div class="w-full mb-4">
+                                    <label class="block w-full mb-2 font-semibold text-slate-300" for="name">Name</label>
+                                    <input class="w-full p-2 border border-slate-300 rounded-lg"
+                                        type="text" name="name" id="name" th:field="${merchantDTO.name}" placeholder="name" minlength="3" maxlength="50" required>
+                                    <p class="mt-2 text-sm text-red-500 font-light" th:if="${#fields.hasErrors('name')}" th:errors="${merchantDTO.name}"></p>
+                                </div>
+                                <div class="w-full mb-4">
+                                    <label class="block w-full mb-2 font-semibold text-slate-300" for="phone">Phone</label>
+                                    <input class="w-full p-2 border border-slate-300 rounded-lg"
+                                        type="text" name="phone" id="phone" th:field="${merchantDTO.phone}" placeholder="phone" minlength="12" maxlength="15" required>
+                                    <p class="mt-2 text-sm text-red-500 font-light" th:if="${#fields.hasErrors('phone')}" th:errors="${merchantDTO.phone}"></p>
+                                </div>
+                                <div class="w-full">
+                                    <label class="block w-full mb-2 font-semibold text-slate-300" for="address">Address</label>
+                                    <textarea class="w-full p-2 border border-slate-300 rounded-lg"
+                                        name="address" id="address" placeholder="address" th:field="${merchantDTO.address}" minlength="3" maxlength="200" required
+                                        ></textarea>
+                                    <p class="mt-2 text-sm text-red-500 font-light" th:if="${#fields.hasErrors('address')}" th:errors="${merchantDTO.address}"></p>
+                                </div>
+                            </div>
+                            <div class="w-full p-2 flex items-center justify-end border-t border-slate-300 bg-white rounded-b-lg">
+                                <button class="w-full px-4 py-2 border border-orange-500 text-orange-500 font-medium rounded-md hover:bg-orange-500 hover:text-white focus:bg-orange-500 focus:text-white active:bg-orange-700 transition-colors" 
+                                    type="submit">
+                                    Update Customer Information
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="w-full h-4"></div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
