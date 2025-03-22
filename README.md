@@ -30,6 +30,52 @@ This app focus on Back-End, so it's not quite responsive
   - File Size Config for Image
 
 - Make Database (using MySQL and SQLyog)
+```
+CREATE TABLE `customers` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `address` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE `merchants` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `address` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE `products` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `image` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `price` double NOT NULL,
+  `unit` varchar(255) DEFAULT NULL,
+  `merchant_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKt1yvv81v320ba41fq28k7had2` (`merchant_id`),
+  CONSTRAINT `FKt1yvv81v320ba41fq28k7had2` FOREIGN KEY (`merchant_id`) REFERENCES `merchants` (`id`) ON DELETE CASCADE
+)
+
+CREATE TABLE `shipments` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `arrived_at` datetime(6) DEFAULT NULL,
+  `created_at` datetime(6) DEFAULT NULL,
+  `product_quantity` int NOT NULL,
+  `shipment_price` double NOT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `total_price` double NOT NULL,
+  `customer_id` int NOT NULL,
+  `product_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK4riardtm02dseyjfo3vjrg3o0` (`customer_id`),
+  KEY `FKigjanuwjnryskujohncq7a394` (`product_id`),
+  CONSTRAINT `FK4riardtm02dseyjfo3vjrg3o0` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FKigjanuwjnryskujohncq7a394` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE
+)
+```
 
 - Package Model
   - variable for each column in database's table
