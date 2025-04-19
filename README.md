@@ -95,3 +95,6 @@ What I think I can add to learn more
 - Using Login and Register
 - Make some kind of middleware for different user roles
 - Turn this app to an API
+
+## Article On This
+[Kencong's Hashnode - shipment-app-with-java-spring-boot](https://kencong.hashnode.dev/shipment-app-with-java-spring-boot)
